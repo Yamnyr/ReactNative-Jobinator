@@ -33,6 +33,7 @@ export async function addJob(jwt, data) {
   return fetch(`${BASE_URL}/api/jobs/`, {
     method: "POST",
     headers: {
+      "Content-Type": "application/json",
       Authorization: `Bearer ${jwt}`,
     },
     body: JSON.stringify(data),
