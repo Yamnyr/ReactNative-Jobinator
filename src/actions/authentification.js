@@ -1,6 +1,6 @@
 export const actions = {
   SET_TOKEN: "SET_TOKEN",
-  SET_REFRESH: "SET_REFRESH",
+  SET_STATUS: "SET_STATUS",
 };
 
 export function setToken(jwt) {
@@ -9,9 +9,9 @@ export function setToken(jwt) {
     jwt : jwt,
   };
 }
-export function setRefreshToken(jwt) {
+export function setStatus(status) {
   return {
-    type: actions.SET_REFRESH,
-    jwt : jwt,
+    type: actions.SET_STATUS,
+    status : status,
   };
 }

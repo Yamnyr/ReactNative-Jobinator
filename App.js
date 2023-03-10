@@ -9,12 +9,14 @@ import {useReducer} from "react";
 import Accueil from "./src/components/Accueil";
 import Register from "./src/components/Register";
 import JobList from "./src/components/JobList";
+import Job from "./src/components/Job";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const defaultState = {
     jwt: null,
+    status: null,
   };
 
   const [state, dispatch] = useReducer(reducer, defaultState);
@@ -29,6 +31,7 @@ export default function App() {
     navigator = (
       <Stack.Navigator>
         <Stack.Screen name="jobList" component={JobList} />
+        <Stack.Screen name="job" component={Job} />
       </Stack.Navigator>
     );
   }

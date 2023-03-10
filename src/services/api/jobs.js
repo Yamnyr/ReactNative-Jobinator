@@ -14,3 +14,17 @@ export async function fetchAllJobs(jwt) {
       console.log(error);
     });
 }
+
+export async function fetchJob(jwt, id) {
+  return fetch(`${BASE_URL}/api/jobs/${id}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  })
+    .then((response) => response.json())
+
+    .catch((error) => {
+      console.log(error);
+    });
+}

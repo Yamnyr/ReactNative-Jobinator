@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import {ScrollView} from "react-native-web";
-import {Authentification} from "../services/api/user";
+import {FetchUser} from "../services/api/user";
 import {setToken} from "../actions/authentification";
 import ContactItem from "./JobsItem";
 
@@ -23,10 +23,18 @@ export default function JobList() {
           <JobsItem key={job.id} data={job}/>
 
         )));
-        console.log("Accueil::handleSubmit", jobs)
+        console.log("JobList::fetchAllJobs", jobs)
       }});
   }, [state.jwt]);
 
+  // useEffect(() => {
+  //   FetchUser(state.jwt)
+  //     .then((user) => {if (user.error) {
+  //       setError(user.message);
+  //     } else {
+  //       console.log("jobList::getUser", user)
+  //     }});
+  // }, [state.jwt]);
 
   return (
     <View>

@@ -23,3 +23,14 @@ export async function register(credentials) {
   })
     .then((response) => response.json());
 }
+
+export async function FetchUser(jwt) {
+  return fetch(`${BASE_URL}/api/user`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(jwt),
+  })
+    .then((response) => response.json());
+}

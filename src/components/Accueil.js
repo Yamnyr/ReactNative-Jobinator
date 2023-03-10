@@ -1,37 +1,44 @@
 import { StyleSheet, Text, View } from 'react-native';
 import {TextInput, TouchableOpacity} from "react-native-web";
 import React, {useContext, useState} from 'react';
-import {Authentification} from "../services/api/user";
+import { Authentification, FetchUser } from "../services/api/user";
 import {Context} from "../context/store";
-import {setRefreshToken, setToken} from "../actions/authentification";
+import { setRefreshToken, setStatus, setToken } from "../actions/authentification";
 import { register } from "../services/api/user";
 import { useNavigation } from "@react-navigation/native";
 
 
 
 export default function Accueil() {
-  const { dispatch } = useContext(Context);
+  const { dispatch, state } = useContext(Context);
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const navigation = useNavigation();
 
-  function registration(params) {
+  function connect(params) {
     Authentification(params).then(async (user) => {
       if (user.error) {
         setError(user.message);
       } else {
-        const {jwt, refreshToken} = user;
+        const {jwt} = user;
         dispatch(setToken(jwt));
 
         console.log("Accueil::handleSubmit", user)
+          FetchUser(state.jwt)
+            .then((user) => {if (user.error) {
+              setError(user.message);
+            } else {
+              const {status} = user;
+              dispatch(setStatus(status));
+            }});
       }
     });
   }
 
 
   function handleSubmit() {
-    registration({ login, password });
+    connect({ login, password });
   }
 
   return (
