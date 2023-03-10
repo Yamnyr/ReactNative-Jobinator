@@ -28,9 +28,9 @@ export async function FetchUser(jwt) {
   return fetch(`${BASE_URL}/api/user`, {
     method: "GET",
     headers: {
+      Authorization: `Bearer ${jwt}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(jwt),
   })
     .then((response) => response.json());
 }

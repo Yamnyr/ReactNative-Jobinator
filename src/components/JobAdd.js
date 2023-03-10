@@ -6,44 +6,28 @@ import {Context} from "../context/store";
 import { setRefreshToken, setStatus, setToken } from "../actions/authentification";
 import { register } from "../services/api/user";
 import { useNavigation } from "@react-navigation/native";
+import { addJob } from "../services/api/jobs";
 
-
-
-export default function Accueil() {
-  const { dispatch, state } = useContext(Context);
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
+export default function JobAdd() {
+  const { state } = useContext(Context);
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
   const [error, setError] = useState(null);
   const navigation = useNavigation();
 
-  function connect(params) {
-    Authentification(params).then(async (user) => {
-      if (user.error) {
-        setError(user.message);
+  function Add(data) {
+    console.log(data)
+    addJob(state.jwt, data).then(async (job) => {
+      if (job.error) {
+        setError(job.message);
       } else {
-        const { jwt } = user;
-        dispatch(setToken(jwt));
-        console.log("Accueil::handleSubmit", user);
-
-        status(jwt);
+        console.log("jobAdd::handleSubmit", job);
       }
     });
   }
 
-  function status(jwt) {
-    FetchUser(jwt)
-      .then((user) => {
-        if (user.error) {
-          setError(user.message);
-        } else {
-          const { status } = user;
-          dispatch(setStatus(status));
-        }
-      });
-  }
-
   function handleSubmit() {
-    connect({ login, password });
+    Add({name, description});
   }
 
   return (
@@ -53,22 +37,18 @@ export default function Accueil() {
           <form onSubmit={handleSubmit}>
             <TextInput
               style={styles.input}
-              placeholder="Login"
-              onChange={(e) => setLogin(e.target.value)}
-              value={login}
+              placeholder="Name"
+              onChange={(e) => setName(e.target.value)}
+              value={name}
             />
             <TextInput
               style={styles.input}
-              placeholder="password"
-              secureTextEntry={true}
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
+              placeholder="description"
+              onChange={(e) => setDescription(e.target.value)}
+              value={description}
             />
             <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-              <Text style={styles.buttonText}>Se connecter</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('register')}>
-              <Text style={styles.buttonText}>Se créer un compte</Text>
+              <Text style={styles.buttonText}>créer une nouvel offre d'emploie</Text>
             </TouchableOpacity>
           </form>
         </View>

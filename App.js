@@ -10,6 +10,7 @@ import Accueil from "./src/components/Accueil";
 import Register from "./src/components/Register";
 import JobList from "./src/components/JobList";
 import Job from "./src/components/Job";
+import JobAdd from "./src/components/JobAdd";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,7 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="jobList" component={JobList} />
         <Stack.Screen name="job" component={Job} />
+        <Stack.Screen name="jobAdd" component={JobAdd} />
       </Stack.Navigator>
     );
   }

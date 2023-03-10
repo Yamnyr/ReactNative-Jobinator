@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import {ScrollView} from "react-native-web";
+import { ScrollView, TouchableOpacity } from "react-native-web";
 import {FetchUser} from "../services/api/user";
 import {setToken} from "../actions/authentification";
 import ContactItem from "./JobsItem";
@@ -8,12 +8,14 @@ import {useContext, useEffect, useState} from "react";
 import {Context} from "../context/store";
 import { fetchAllJobs } from "../services/api/jobs";
 import JobsItem from "./JobsItem";
+import { useNavigation } from "@react-navigation/native";
 export default function JobList() {
 
   const { state, dispatch } = useContext(Context);
   const [listContacts, setListJobs] = useState([])
   const [error, setError] = useState(null)
-
+  const status = state.status;
+  const navigation = useNavigation();
   useEffect(() => {
     fetchAllJobs(state.jwt)
       .then((jobs) => {if (jobs.error) {
@@ -27,19 +29,18 @@ export default function JobList() {
       }});
   }, [state.jwt]);
 
-  // useEffect(() => {
-  //   FetchUser(state.jwt)
-  //     .then((user) => {if (user.error) {
-  //       setError(user.message);
-  //     } else {
-  //       console.log("jobList::getUser", user)
-  //     }});
-  // }, [state.jwt]);
 
   return (
     <View>
       <ScrollView style={styles.Content}>
         {listContacts}
+        {status === "entreprise" && (
+          <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('jobAdd')}>
+            <View>
+              <Text style={styles.text}>+</Text>
+            </View>
+          </TouchableOpacity>
+        )}
       </ScrollView>
       <button style={styles.disconnect} onClick={() => dispatch(setToken(null))}>Se deconnecter</button>
       <View style={styles.Error}>
@@ -72,4 +73,18 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold'
   },
+  container: {
+    backgroundColor: 'transparent',
+    opacity: 1,
+    margin: 20,
+    padding: 15,
+    borderRadius: 5,
+    borderWidth:3,
+    borderColor: '#770046',
+  },
+  text:{
+    fontSize:20,
+    color: "white",
+    fontWeight: "bold",
+  }
 });

@@ -28,3 +28,18 @@ export async function fetchJob(jwt, id) {
       console.log(error);
     });
 }
+
+export async function addJob(jwt, data) {
+  return fetch(`${BASE_URL}/api/jobs/`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+
+    .catch((error) => {
+      console.log(error);
+    });
+}
