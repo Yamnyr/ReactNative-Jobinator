@@ -6,6 +6,7 @@ Installation des dépendances JavaScript avec npm :
 
 ```shell
 npm install
+necessite l'installation de ce projet : https://github.com/Yamnyr/ReactNative-Jobinator-api
 ```
 
 ## Développement
